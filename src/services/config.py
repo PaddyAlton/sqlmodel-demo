@@ -10,6 +10,6 @@ class AppSettings(BaseSettings):
     connection_string: PostgresDsn
 
 
-#@lru_cache
+@lru_cache()
 def get_settings() -> AppSettings:
     return AppSettings()

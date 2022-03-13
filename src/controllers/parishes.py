@@ -9,10 +9,10 @@ from src.services.db import get_session
 router = APIRouter(tags=["parish"])
 
 
-@router.post("/parish/")
+@router.post("/parish/", response_model=Parish)
 def create_parish(parish: Parish, session=Depends(get_session)) -> Parish:
     session.add(parish)
-    session.commit(parish)
+    session.commit()
     session.refresh(parish)
     return parish
 

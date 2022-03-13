@@ -18,7 +18,9 @@ def create_db_and_tables(get_settings: Callable[[], AppSettings]):
     if settings.application_env == "prod":
         engine = create_engine(settings.connection_string, connect_args=connect_args)
     else:
-        engine = create_engine("sqlite:///test.db", echo=True, connect_args=connect_args)
+        engine = create_engine(
+            "sqlite:///test.db", echo=True, connect_args=connect_args
+        )
 
     SQLModel.metadata.create_all(engine)
 
