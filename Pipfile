@@ -19,6 +19,7 @@ pydantic = {extras = ["email"],version = "*"}
 
 [scripts]
 fmt = "black src tests"
+fmt-check = "black src tests --check"
 start = "uvicorn src:app --host 0.0.0.0 --port 8765 --reload"
 prod = "python src/app.py"
 
