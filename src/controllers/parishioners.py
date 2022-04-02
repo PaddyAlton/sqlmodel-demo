@@ -11,9 +11,7 @@ router = APIRouter(tags=["parishioner"])
 
 
 @router.post("/parishioner/", response_model=ParishionerRead)
-def create_parishioner(
-    parishioner: ParishionerCreate, session=Depends(get_session)
-) -> Parishioner:
+def create_parishioner(parishioner: ParishionerCreate, session=Depends(get_session)):
     session.add(parishioner)
     session.commit()
     session.refresh(parishioner)

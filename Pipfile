@@ -20,8 +20,9 @@ pydantic = {extras = ["email"],version = "*"}
 [scripts]
 fmt = "black src tests"
 fmt-check = "black src tests --check"
-start = "uvicorn src:app --host 0.0.0.0 --port 8765 --reload"
+mypy = "mypy --config-file mypy/mypy.ini src"
 prod = "python src/app.py"
+start = "uvicorn src:app --host 0.0.0.0 --port 8765 --reload"
 
 [requires]
-python_version = "3.7"
+python_version = "3.10"

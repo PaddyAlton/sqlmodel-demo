@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sqlmodel-demo-app
+    command: --host 0.0.0.0 --port 8765 --reload
+    env_file:
+      - config/api.env
+    networks:
+      - demo-network
+    ports:
+      - 8765:8765
+  db:
+    image: postgres:9.6
+    container_name: sqlmodel-demo-db
+    env_file:
+      - config/db.env
+    networks:
+      - demo-network
+    restart: always
+    volumes:
+      - church-db-data:/var/lib/postgresql/data
+
+networks:
+  demo-network:
+
+volumes:
+  church-db-data:
