@@ -10,6 +10,11 @@ from src.services.db import get_session
 router = APIRouter(tags=["parishioner"])
 
 
+def ParishionerNotFound():
+    # a bit less overhead than inheriting from HTTPException
+    return HTTPException(status_code=404, detail="Parishioner not found")
+
+
 @router.post("/parishioner/", response_model=ParishionerRead)
 def create_parishioner(parishioner: ParishionerCreate, session=Depends(get_session)):
     session.add(parishioner)
@@ -22,5 +27,15 @@ def create_parishioner(parishioner: ParishionerCreate, session=Depends(get_sessi
 def read_parishioner(parishioner_id: int, session=Depends(get_session)):
     parishioner = session.get(Parishioner, parishioner_id)
     if not parishioner:
-        raise HTTPException(status_code=404, detail="Parishioner not found")
+        raise ParishionerNotFound()
     return parishioner
+
+
+@router.delete("/parishioner/{parishioner_id}")
+def delete_parishioner(parishioner_id: int, session=Depends(get_session)):
+    parishioner = session.get(Parishioner, parishioner_id)
+    if not parishioner:
+        raise ParishionerNotFound()
+    session.delete(parishioner)
+    session.commit()
+    return {"detail": f"Parishioner with ID {parishioner_id} was deleted"}

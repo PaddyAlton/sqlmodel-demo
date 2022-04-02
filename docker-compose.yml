@@ -22,6 +22,7 @@ services:
     restart: always
     volumes:
       - church-db-data:/var/lib/postgresql/data
+      - ./src:/demo/src  # overwrite source code with local changes
 
 networks:
   demo-network:

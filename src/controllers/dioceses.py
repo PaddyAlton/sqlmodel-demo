@@ -13,6 +13,11 @@ from src.services.logs import logger
 router = APIRouter(tags=["diocese"])
 
 
+def DioceseNotFound():
+    # a bit less overhead than inheriting from HTTPException
+    return HTTPException(status_code=404, detail="Diocese not found")
+
+
 @router.post("/diocese/", response_model=DioceseRead)
 def create_diocese(diocese: DioceseCreate, session=Depends(get_session)):
     logger.info("Attempting to create Diocese")
@@ -31,5 +36,15 @@ def create_diocese(diocese: DioceseCreate, session=Depends(get_session)):
 def read_diocese(diocese_id: int, session=Depends(get_session)):
     diocese = session.get(Diocese, diocese_id)
     if not diocese:
-        raise HTTPException(status_code=404, detail="Diocese not found")
+        raise DioceseNotFound()
     return diocese
+
+
+@router.delete("/diocese/{diocese_id}")
+def delete_diocese(diocese_id: int, session=Depends(get_session)):
+    diocese = session.get(Diocese, diocese_id)
+    if not diocese:
+        raise DioceseNotFound()
+    session.delete(diocese)
+    session.commit()
+    return {"detail": f"Diocese with ID {diocese_id} was deleted"}
