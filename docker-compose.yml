@@ -12,6 +12,8 @@ services:
       - demo-network
     ports:
       - 8765:8765
+    volumes:
+      - ./src:/demo/src  # overwrite source code with local changes
   db:
     image: postgres:9.6
     container_name: sqlmodel-demo-db
@@ -22,7 +24,6 @@ services:
     restart: always
     volumes:
       - church-db-data:/var/lib/postgresql/data
-      - ./src:/demo/src  # overwrite source code with local changes
 
 networks:
   demo-network:
